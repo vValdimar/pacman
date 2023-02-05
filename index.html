@@ -331,6 +331,7 @@
         speed = Math.floor(size/5);
 
         pacman.dead = false;
+        pacman.lives = 3;
         pacman.size = size;
         pacman.speed = speed;
         pacman.x = canvas.width/2;
@@ -411,6 +412,7 @@
         swiping = true;
         initialX = event.touches[0].clientX;
         initialY = event.touches[0].clientY;
+        if (pacman.dead) startGame();
     });
 
     document.addEventListener("touchmove", function(event) {
@@ -426,16 +428,18 @@
         y = 0;
     });
 
-    document.addEventListener("DOMContentLoaded", () => screen.orientation.lock('landscape-primary'));
-
-    document.addEventListener("keydown", e => keys[keyCodes[e.keyCode]] = true);
-    document.addEventListener("keyup", e => keys[keyCodes[e.keyCode]] = false);
-    startButton.addEventListener("click", function() {
+    function startGame() {
         document.documentElement.requestFullscreen().then(function() {
         resetGame();
         init();
         });
-    });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => screen.orientation.lock('landscape-primary'));
+
+    document.addEventListener("keydown", e => keys[keyCodes[e.keyCode]] = true);
+    document.addEventListener("keyup", e => keys[keyCodes[e.keyCode]] = false);
+    startButton.addEventListener("click", startGame);
     
 
     function init() {
